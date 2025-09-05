@@ -5,20 +5,23 @@
         static void Main(string[] args)
         {
             const int GUESS_LIMIT = 7;
+            const int LOW_GUESS_LIMIT = 1;
+            const int HIGH_GUESS_LIMIT = 100;
 
             Boolean win = false;
 
             Console.WriteLine("Welcome to the Number Guessing Game!");
 
             // Game loops until the player does not want to play anymore
+            Random rng = new Random();
+
             while (true)
             {
 
-                // Generate Random Number from 1 to 100
-                Random rng = new Random();
-                int secretNumber = rng.Next(1, 101);
+                // Generate Random Number from LOW_GUESS_LIMIT to HIGH_GUESS_LIMIT
+                int secretNumber = rng.Next(LOW_GUESS_LIMIT, HIGH_GUESS_LIMIT);
 
-                Console.WriteLine("\nGuess a number between 1 and 100.");
+                Console.WriteLine($"\nGuess a number between {LOW_GUESS_LIMIT} and {HIGH_GUESS_LIMIT}.");
 
                 for (int i = 0; i < GUESS_LIMIT; i++)
                 {
@@ -26,6 +29,13 @@
                     Console.WriteLine("\nGuess a number: ");
                     int userNumber = Convert.ToInt32(Console.ReadLine());
 
+                    if (userNumber == secretNumber)
+                    {
+                        // Player guesses correct number
+                        Console.WriteLine("You got it!! You Win!!");
+                        win = true;
+                        break;
+                    }
                     if (Math.Abs(secretNumber - userNumber) <= 5 && userNumber != secretNumber)
                     {
                         Console.WriteLine("You are close!");
@@ -44,13 +54,6 @@
                         Console.WriteLine($"Too high. You have {GUESS_LIMIT - i - 1} guesses left.");
                         continue;
 
-                    }
-                    else
-                    {
-                        // Player guesses correct number
-                        Console.WriteLine("You got it!! You Win!!");
-                        win = true;
-                        break;
                     }
 
                 }
